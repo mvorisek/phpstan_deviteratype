@@ -397,6 +397,24 @@ class ObjectType implements \PHPStan\Type\TypeWithClassName, \PHPStan\Type\Subtr
     }
     public function getIterableValueType() : \PHPStan\Type\Type
     {
+//        if ($this->getClassReflection()->getName() === \Mvorisek\Iterphpstan\Model2::class) {
+//            return new \PHPStan\Type\ObjectType(\Mvorisek\Iterphpstan\Model2::class);
+//        }
+
+        $res = $this->_getIterableValueType();
+
+        var_dump($res->describe(VerbosityLevel::value()));
+
+        return TypeTraverser::map($res, function (Type $returnType, callable $traverse): Type {
+                if ($returnType instanceof StaticType) {
+                    return $traverse($returnType->changeBaseClass($this->getClassReflection()));
+                }
+
+                return $traverse($returnType);
+        });
+    }
+    public function _getIterableValueType() : \PHPStan\Type\Type
+    {
         $classReflection = $this->getClassReflection();
         if ($classReflection === null) {
             return new \PHPStan\Type\ErrorType();
