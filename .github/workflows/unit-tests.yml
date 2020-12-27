@@ -10,7 +10,7 @@ jobs:
   build:
     strategy:
       matrix:
-        operating-system: [ubuntu-latest, windows-latest, macos-latest]
+        operating-system: [ubuntu-latest, windows-latest]
         php-versions: ['7.4']
     runs-on: ${{ matrix.operating-system }}
     steps:
@@ -30,7 +30,7 @@ jobs:
 
       - name: Install PHP dependencies
         run: |
-          composer install --no-suggest --ansi --prefer-dist --no-interaction --no-progress --optimize-autoloader
+          composer update
 
       - name: Run Static Analysis
         run: |
