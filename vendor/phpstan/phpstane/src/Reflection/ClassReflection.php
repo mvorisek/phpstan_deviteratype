@@ -468,6 +468,7 @@ class ClassReflection implements \PHPStan\Reflection\ReflectionWithFilename
         $genericInterfaces = [];
         foreach ($implementsTags as $implementsTag) {
             $implementedType = $implementsTag->getType();
+            // echo'x ';var_dump($implementedType->describe(VerbosityLevel::precise()));
             if (!$this->isValidAncestorType($implementedType, $interfaceNames)) {
                 continue;
             }
@@ -482,6 +483,14 @@ class ClassReflection implements \PHPStan\Reflection\ReflectionWithFilename
                 continue;
             }
             $genericInterfaces[] = $reflectionIface;
+
+
+            if ($reflectionIface->hasNativeMethod('getIterator') && strpos($implementedType->describe(VerbosityLevel::precise()), 'static') !== false) {
+                echo'y ';var_dump($implementedType->describe(VerbosityLevel::precise()));
+                echo'z ';var_dump(\PHPStan\Reflection\ParametersAcceptorSelector::selectSingle(
+                        $reflectionIface->getNativeMethod('getIterator')->getVariants()
+                    )->getReturnType()->describe(VerbosityLevel::precise()));
+            }
         }
         foreach ($genericInterfaces as $genericInterface) {
             $interfaces = \array_merge($interfaces, $genericInterface->getInterfaces());
