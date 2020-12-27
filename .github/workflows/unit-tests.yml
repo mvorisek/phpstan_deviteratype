@@ -1,0 +1,42 @@
+name: Unit Testing
+
+on:
+  pull_request:
+    branches: '**'
+  push:
+    branches: '**'
+
+jobs:
+  smoke-test:
+    name: Smoke
+    runs-on: ubuntu-latest
+    container:
+      image: atk4/image:${{ matrix.php }}
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['latest']
+        type: ['StaticAnalysis']
+    env:
+      LOG_COVERAGE: ""
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure PHP
+        run: |
+          if [ -n "$LOG_COVERAGE" ]; then echo "xdebug.mode=coverage" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; else rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; fi
+          php --version
+
+      - name: Install PHP dependencies
+        run: |
+          if [ "${{ matrix.type }}" != "Phpunit" ] && [ "${{ matrix.type }}" != "StaticAnalysis" ]; then composer remove --no-interaction --no-update phpunit/phpunit johnkary/phpunit-speedtrap --dev ; fi
+          if [ "${{ matrix.type }}" != "CodingStyle" ]; then composer remove --no-interaction --no-update friendsofphp/php-cs-fixer --dev ; fi
+          if [ "${{ matrix.type }}" != "StaticAnalysis" ]; then composer remove --no-interaction --no-update phpstan/phpstan --dev ; fi
+          composer install --no-suggest --ansi --prefer-dist --no-interaction --no-progress --optimize-autoloader
+
+      - name: Run Static Analysis (only for StaticAnalysis)
+        if: matrix.type == 'StaticAnalysis'
+        run: |
+          echo "memory_limit = 1G" > /usr/local/etc/php/conf.d/custom-memory-limit.ini
+          vendor/bin/phpstan analyse
