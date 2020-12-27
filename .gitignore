@@ -1,0 +1,5 @@
+composer.lock
+vendor/*
+!vendor/phpstan/
+vendor/phpstan/*
+!vendor/phpstan/phpstane
