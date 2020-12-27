@@ -39,4 +39,4 @@ jobs:
         if: matrix.type == 'StaticAnalysis'
         run: |
           echo "memory_limit = 1G" > /usr/local/etc/php/conf.d/custom-memory-limit.ini
-          vendor/bin/phpstan analyse
+          cd vendor/atk4/ui && php ../../phpstan/phpstan/phpstan analyse --ansi

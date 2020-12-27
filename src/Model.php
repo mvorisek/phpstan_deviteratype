@@ -21,8 +21,8 @@ class Model2 extends Model
     public $a;
 }
 
-$m = new Model2();
+/*$m = new Model2();
 foreach ($m as $mitem) {
     $m->a = 5;
     $mitem->a = 5;
-}
+}*/
