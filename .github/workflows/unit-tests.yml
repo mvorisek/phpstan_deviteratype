@@ -30,8 +30,11 @@ jobs:
 
       - name: Install PHP dependencies
         run: |
+          mv vendor/phpstan/phpstane phpstane
           composer update
+          mv phpstane vendor/phpstan/phpstane
+          rm -R vendor/phpstan/phpstan/* && touch vendor/phpstan/phpstan/bootstrap.php
 
       - name: Run Static Analysis
         run: |
-          cd vendor/atk4/ui && php ../../phpstan/phpstane/phpstan analyse --ansi
+          cd vendor/atk4/ui && php ../../phpstan/phpstane/bin/phpstan analyse --ansi
