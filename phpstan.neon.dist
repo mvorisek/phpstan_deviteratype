@@ -8,6 +8,6 @@ parameters:
         - vendor/
 
     parallel:
-        jobSize: 20
-        maximumNumberOfProcesses: 20
+        jobSize: 2
+        maximumNumberOfProcesses: 2
         minimumNumberOfJobsPerProcess: 2
