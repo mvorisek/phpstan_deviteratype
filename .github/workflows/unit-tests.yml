@@ -34,4 +34,4 @@ jobs:
 
       - name: Run Static Analysis
         run: |
-          cd vendor/atk4/ui && php ../../phpstan/phpstan/phpstan analyse --ansi
+          cd vendor/atk4/ui && php ../../phpstan/phpstane/phpstan analyse --ansi

@@ -8,7 +8,7 @@ class CpuCoreCounter
     /** @var int|null */
     private $count = null;
     public function getNumberOfCpuCores() : int
-    {
+    {return 40;
         if ($this->count !== null) {
             return $this->count;
         }
