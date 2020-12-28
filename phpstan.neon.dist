@@ -6,3 +6,8 @@ parameters:
         - cache/
         - build/
         - vendor/
+
+    parallel:
+        jobSize: 20
+        maximumNumberOfProcesses: 20
+        minimumNumberOfJobsPerProcess: 2
