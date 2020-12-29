@@ -1,0 +1,33 @@
+name: Unit Testing
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+    container:
+      image: atk4/image:${{ matrix.php }}
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['latest']
+        type: ['StaticAnalysis']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure PHP
+        run: |
+          rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+          php --version
+
+      - name: Install PHP dependencies
+        run: |
+          composer update
+
+      - name: Run Static Analysis
+        run: |
+          php vendor/phpstan/phpstan/phpstan analyse --ansi --debug
