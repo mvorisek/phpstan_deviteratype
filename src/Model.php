@@ -9,6 +9,9 @@ namespace Mvorisek\Iterphpstan;
  */
 class Model implements \IteratorAggregate
 {
+    /**
+     * @return \Traversable<static>
+     */
     public function getIterator(): \Traversable
     {
         yield $this;
