@@ -424,6 +424,10 @@ class ObjectType implements \PHPStan\Type\TypeWithClassName, \PHPStan\Type\Subtr
         }
         if ($this->isInstanceOf(\IteratorAggregate::class)->yes()) {
             return \PHPStan\Type\RecursionGuard::run($this, static function () use($classReflection) : Type {
+
+                echo '--> '; var_dump(\PHPStan\Reflection\ParametersAcceptorSelector::selectSingle($classReflection->getNativeMethod('getIterator')
+                    ->getVariants())->getReturnType()->describe(VerbosityLevel::precise()));
+
                 return \PHPStan\Reflection\ParametersAcceptorSelector::selectSingle($classReflection->getNativeMethod('getIterator')->getVariants())->getReturnType()->getIterableValueType();
             });
         }

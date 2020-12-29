@@ -21,7 +21,12 @@ class TemplateTypeHelper
                     $newType = $type->getBound();
                 }
                 if ($newType instanceof \PHPStan\Type\StaticType) {
-                    $newType = $newType->getStaticObjectType();
+
+                    if (strpos($newType->describe(\PHPStan\Type\VerbosityLevel::precise()), 'static') !== false) {
+                 //       debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+                    }
+
+//                    $newType = $newType->getStaticObjectType();
                 }
                 return $newType;
             }

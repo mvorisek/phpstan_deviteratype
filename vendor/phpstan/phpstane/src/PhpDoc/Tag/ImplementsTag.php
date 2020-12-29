@@ -11,9 +11,13 @@ class ImplementsTag
     public function __construct(\PHPStan\Type\Type $type)
     {
         $this->type = $type;
+
+        var_dump($type->describe(\PHPStan\Type\VerbosityLevel::precise()));
     }
     public function getType() : \PHPStan\Type\Type
     {
+      //  debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+
         return $this->type;
     }
     /**

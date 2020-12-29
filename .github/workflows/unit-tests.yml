@@ -33,10 +33,12 @@ jobs:
           if [ "${{ matrix.type }}" != "Phpunit" ] && [ "${{ matrix.type }}" != "StaticAnalysis" ]; then composer remove --no-interaction --no-update phpunit/phpunit johnkary/phpunit-speedtrap --dev ; fi
           if [ "${{ matrix.type }}" != "CodingStyle" ]; then composer remove --no-interaction --no-update friendsofphp/php-cs-fixer --dev ; fi
           if [ "${{ matrix.type }}" != "StaticAnalysis" ]; then composer remove --no-interaction --no-update phpstan/phpstan --dev ; fi
-          composer install --no-suggest --ansi --prefer-dist --no-interaction --no-progress --optimize-autoloader
+          mv vendor/phpstan/phpstane phpstane
+          composer update
+          mv phpstane vendor/phpstan/phpstane
+          rm -R vendor/phpstan/phpstan/* && touch vendor/phpstan/phpstan/bootstrap.php
 
       - name: Run Static Analysis (only for StaticAnalysis)
         if: matrix.type == 'StaticAnalysis'
         run: |
-          echo "memory_limit = 1G" > /usr/local/etc/php/conf.d/custom-memory-limit.ini
-          vendor/bin/phpstan analyse
+          php vendor/phpstan/phpstane/bin/phpstan analyse --ansi --debug
