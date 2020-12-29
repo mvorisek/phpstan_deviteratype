@@ -281,7 +281,7 @@ class PhpClassReflectionExtension implements \PHPStan\Reflection\PropertiesClass
         }
         if (!isset($this->nativeMethods[$classReflection->getCacheKey()][$nativeMethodReflection->getName()])) {
             $method = $this->createMethod($classReflection, $nativeMethodReflection, \false);
-            return $method;
+            $this->nativeMethods[$classReflection->getCacheKey()][$nativeMethodReflection->getName()] = $method;
         }
         return $this->nativeMethods[$classReflection->getCacheKey()][$nativeMethodReflection->getName()];
     }
