@@ -21,7 +21,7 @@ class TemplateTypeHelper
                     $newType = $type->getBound();
                 }
                 if ($newType instanceof \PHPStan\Type\StaticType) {
-                    $newType = $newType->getStaticObjectType();
+//                    $newType = $newType->getStaticObjectType();
                 }
                 return $newType;
             }
